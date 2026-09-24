@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Маяк: брелок и приложение для защиты близких</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F6F8;--surface:#fff;--soft:#ECEFF3;--text:#16202E;--muted:#586576;--line:#D9DEE5;--coral:#D8392F;--mint:#0B8A6C;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1722;--surface:#172131;--soft:#1B283A;--text:#E9EEF4;--muted:#9AA9BA;--line:#2A3A50;--coral:#FF6A5F;--mint:#3CCFA6}}
+:root[data-theme="dark"]{--bg:#0F1722;--surface:#172131;--soft:#1B283A;--text:#E9EEF4;--muted:#9AA9BA;--line:#2A3A50;--coral:#FF6A5F;--mint:#3CCFA6}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:400 17px/1.65 Onest,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Lora,Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;margin:0}
+p{margin:0}
+:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 max(24px,env(safe-area-inset-left))}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:24px 0;flex-wrap:wrap}
+.logo{font:600 26px Lora,Georgia,serif;text-decoration:none;color:var(--text)}
+nav{display:flex;gap:24px;font-size:15px}
+nav a{color:var(--muted);text-decoration:none}nav a:hover{color:var(--text);text-decoration:underline}
+.hero{padding:44px 0 90px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+h1{font-size:clamp(32px,4.4vw,54px);margin-bottom:24px}
+.lead{font-size:19px;color:var(--muted);max-width:520px}
+.note-early{margin-top:22px;padding-left:16px;border-left:3px solid var(--coral);max-width:500px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-block;padding:13px 24px;border-radius:8px;font:500 16px Onest,sans-serif;text-decoration:none;border:1px solid var(--text);color:var(--text);background:transparent;cursor:pointer}
+.btn.main{background:var(--text);color:var(--bg)}
+.btn:hover{opacity:.85}
+.phone{width:min(310px,100%);margin:0 auto;background:#0E1826;border-radius:38px;padding:12px;color:#EAF1F8;box-shadow:0 22px 50px -24px rgba(0,0,0,.5)}
+.screen{border-radius:28px;background:#14243A;padding:24px 20px;text-align:center;min-height:500px;display:flex;flex-direction:column;align-items:center}
+.screen small{color:#9BB0C5;font-size:13px}
+.ringbox{position:relative;width:200px;height:200px;margin:24px 0 14px}
+.ringbox svg{transform:rotate(-90deg)}
+.ringbox circle{fill:none;stroke-width:9}
+.ringbox .bg{stroke:#2A4262}
+.ringbox .fg{stroke:#FF6A5F;stroke-linecap:round;stroke-dasharray:565.5;stroke-dashoffset:0}
+.num{position:absolute;inset:0;display:grid;place-items:center;font:600 60px Lora,Georgia,serif}
+.msg{font-size:15px;min-height:70px}
+.cancel{margin-top:auto;width:100%;padding:15px;border-radius:12px;border:0;background:#3CCFA6;color:#06231B;font:600 16px Onest,sans-serif;cursor:pointer}
+.chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:6px 0 16px}
+.chips span{font-size:12px;padding:4px 10px;border-radius:99px;background:#1F3350;color:#B5C6D8}
+section{padding:84px 0;border-top:1px solid var(--line)}
+section.alt{background:var(--soft)}
+h2{font-size:clamp(26px,3.2vw,38px);max-width:700px}
+.sub{color:var(--muted);margin-top:14px;max-width:600px;font-size:18px}
+.device .wrap,.radar .wrap,.contacts .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.dv-art{background:var(--soft);border-radius:16px;padding:36px 24px 22px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.dv-art svg{width:min(280px,80%);height:auto}
+.cap{font-size:14px;color:var(--muted);text-align:center;max-width:320px}
+.ticks{list-style:none;margin:26px 0;padding:0;display:grid;gap:14px}
+.ticks li{padding-left:26px;position:relative;color:var(--muted)}
+.ticks li:before{content:"";position:absolute;left:2px;top:.6em;width:10px;height:10px;border-radius:50%;background:var(--mint)}
+.proto{padding:18px 20px;border:1px dashed var(--coral);border-radius:10px;background:var(--surface)}
+.proto b{display:block;margin-bottom:4px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:48px}
+.step .n{font:600 44px Lora,Georgia,serif;color:var(--coral);line-height:1;margin-bottom:14px}
+.step h3{font-size:20px;margin-bottom:10px}
+.step p{color:var(--muted);font-size:16px}
+.map{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.map svg{display:block;width:100%;height:auto}
+.rows{margin-top:28px;display:grid;gap:20px}
+.rows div{padding-left:18px;border-left:3px solid var(--mint)}
+.rows div:nth-child(2){border-color:var(--coral)}
+.rows h3{font-size:18px;margin-bottom:4px}
+.rows p{color:var(--muted);font-size:16px}
+.flow{display:grid;grid-template-columns:230px 1fr;gap:24px;padding:22px 0;border-bottom:1px solid var(--line);align-items:center}
+.flows{margin-top:36px;border-top:1px solid var(--line)}
+.flow h3{font-size:18px}
+.path{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--muted);font-size:15px}
+.path span{padding:7px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+.path .ok{border-color:var(--mint);color:var(--text)}.path .bad{border-color:var(--coral);color:var(--text)}
+.path em{font-style:normal;opacity:.5}
+.cbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 24px;display:grid;gap:10px}
+.ct{display:flex;align-items:center;gap:14px;padding:8px 0;border-bottom:1px solid var(--line)}
+.av{width:42px;height:42px;flex:none;border-radius:50%;background:var(--soft);display:grid;place-items:center;font:600 17px Lora,Georgia,serif}
+.ct small{display:block;color:var(--muted);font-size:14px}
+.chs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chs span{padding:6px 13px;border-radius:99px;background:var(--mint);color:#06231B;font-size:14px;font-weight:500}
+.benefits{display:grid;grid-template-columns:1fr 1fr;gap:40px 64px;margin-top:44px}
+.benefits h3{font-size:20px;margin-bottom:8px}
+.benefits p{color:var(--muted)}
+.tl{margin-top:40px;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.tl div{border-top:4px solid var(--line);padding-top:14px}
+.tl .done{border-color:var(--mint)}.tl .now{border-color:var(--coral)}
+.tl h3{font-size:16px;margin-bottom:6px}
+.tl p{font-size:14px;color:var(--muted);line-height:1.5}
+.tl .st{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:var(--muted)}
+.tl .done .st{color:var(--mint)}.tl .now .st{color:var(--coral)}
+.end p{max-width:620px;margin-top:16px;font-size:18px;color:var(--muted)}
+footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+@media(min-width:1440px){body{font-size:18px}.wrap{max-width:1240px}.phone{width:350px}}
+@media(min-width:1900px){body{font-size:20px}.wrap{max-width:1500px}}
+@media(max-width:1024px){.hero .wrap,.device .wrap,.radar .wrap,.contacts .wrap{gap:36px}.tl{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:860px){nav{display:none}.hero .wrap,.device .wrap,.radar .wrap,.contacts .wrap{grid-template-columns:1fr}.dv-art{order:-1}
+.steps{grid-template-columns:1fr;gap:30px}.benefits{grid-template-columns:1fr;gap:30px}.flow{grid-template-columns:1fr;gap:12px}
+section{padding:60px 0}.hero{padding-bottom:56px}.tl{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.wrap{padding:0 max(18px,env(safe-area-inset-left))}.lead,.sub{font-size:16px}.tl{grid-template-columns:1fr}.btn{width:100%;text-align:center}.screen{min-height:470px;padding:22px 16px}.ringbox{transform:scale(.9)}}
+@media(max-width:360px){body{font-size:16px}h1{font-size:28px}}
+@media(max-height:520px) and (orientation:landscape){.hero{padding:16px 0 36px}section{padding:44px 0}}
+@media(hover:none){.btn,.cancel{min-height:48px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="logo" href="#top">Маяк</a>
+<nav><a href="#device">Брелок</a><a href="#sos">Как это работает</a><a href="#radar">Радар</a><a href="#contacts">Близкие</a><a href="#status">Где мы сейчас</a></nav>
+</header>
+</div>
+
+<main id="top">
+<div class="hero"><div class="wrap">
+<div>
+<h1>Нажали случайно, и ничего не случилось. Нажали всерьёз, и помощь уже в пути.</h1>
+<p class="lead">Мы придумываем брелок и приложение, которые помогут защитить детей, девушек и всех, кто может оказаться в опасности. Сначала телефон спросит вас, что случилось, и только потом сообщит близким.</p>
+<p class="note-early"><b>Это идея и прототип.</b> Мы только начинаем разработку, поэтому многое здесь ещё изменится.</p>
+<div class="btns"><a class="btn main" href="#sos">Как это работает</a><a class="btn" href="#device">Посмотреть брелок</a></div>
+</div>
+<div class="phone" aria-label="Демонстрация экрана тревоги"><div class="screen">
+<small>Так это может выглядеть. Время в демо ускорено.</small>
+<div class="ringbox"><svg width="200" height="200" viewBox="0 0 210 210"><circle class="bg" cx="105" cy="105" r="90"/><circle class="fg" id="fg" cx="105" cy="105" r="90"/></svg><div class="num" id="num">60</div></div>
+<div class="msg" id="msg">Брелок сработал. Это вы? Отмените тревогу</div>
+<div class="chips"><span>Сначала вам</span><span>Потом близким</span><span>МЧС позже</span></div>
+<button class="cancel" id="cancel" type="button">Отмена (это случайно)</button>
+</div></div>
+</div></div>
+
+<section class="device" id="device"><div class="wrap">
+<div class="dv-art">
+<svg viewBox="0 0 320 440" role="img" aria-label="Иллюстрация обычного брелка с чёрной кнопкой">
+<defs>
+<linearGradient id="k1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CDBB9F"/><stop offset="1" stop-color="#8A7659"/></linearGradient>
+<linearGradient id="k4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2F6FA"/><stop offset="1" stop-color="#8DA2B8"/></linearGradient>
+<radialGradient id="k3" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#454B54"/><stop offset="1" stop-color="#08090B"/></radialGradient>
+</defs>
+<ellipse cx="160" cy="422" rx="80" ry="10" fill="#000" opacity=".22"/>
+<g transform="rotate(-28 205 60)"><circle cx="205" cy="40" r="17" fill="url(#k4)"/><circle cx="205" cy="40" r="6" style="fill:var(--soft)"/><rect x="199" y="54" width="12" height="80" rx="4" fill="url(#k4)"/><rect x="211" y="100" width="10" height="6" fill="url(#k4)"/><rect x="211" y="116" width="10" height="6" fill="url(#k4)"/></g>
+<rect x="96" y="120" width="128" height="272" rx="34" fill="url(#k1)"/>
+<rect x="107" y="131" width="106" height="250" rx="26" fill="none" stroke="#EADFCB" stroke-opacity=".75" stroke-width="2" stroke-dasharray="6 5"/>
+<rect x="128" y="108" width="64" height="36" rx="12" fill="url(#k4)"/>
+<circle cx="160" cy="126" r="8" fill="#1B2A3B"/>
+<ellipse cx="160" cy="82" rx="26" ry="46" fill="none" stroke="url(#k4)" stroke-width="6"/>
+<circle cx="160" cy="312" r="34" fill="#6F5D45" opacity=".5"/>
+<circle cx="160" cy="312" r="26" fill="url(#k3)"/>
+<ellipse cx="151" cy="303" rx="9" ry="5" fill="#fff" opacity=".16"/>
+</svg>
+<p class="cap">Рисунок прототипа. Чёрная кнопка сделана заметной для пальца, но на брелке она не бросается в глаза.</p>
+</div>
+<div>
+<h2>Обычный брелок с чёрной кнопкой</h2>
+<p class="sub">С виду это простой брелок для ключей или рюкзака. Нажать кнопку можно так, что рядом никто ничего не заметит.</p>
+<ul class="ticks">
+<li>Тревогу можно вызвать незаметно.</li>
+<li>Брелок связан с приложением: нажатие сразу запускает проверку на вашем телефоне.</li>
+<li>Мы делаем его для детей, девушек и всех, кому нужна защита.</li>
+</ul>
+<div class="proto"><b>Пока это прототип</b>Брелока в продаже нет. Мы только начинаем его разрабатывать, и внешний вид, размеры и возможности ещё будут меняться.</div>
+</div>
+</div></section>
+
+<section id="sos"><div class="wrap">
+<h2>Сначала спрашиваем вас, потом сообщаем близким</h2>
+<p class="sub">Мы не хотим пугать людей зря. У вас есть минута, чтобы отменить ложную тревогу или подтвердить, что вы сами вышли из зоны.</p>
+<div class="steps">
+<div class="step"><div class="n">1</div><h3>Нажатие или выход из зоны</h3><p>Вы нажали чёрную кнопку брелка или вышли за допустимую зону на карте.</p></div>
+<div class="step"><div class="n">2</div><h3>Уведомление на ваш телефон</h3><p>Приложение спрашивает, всё ли в порядке. При случайном нажатии нажмите «Отмена», при выходе из зоны «Я вышел сам». На ответ есть 1 минута.</p></div>
+<div class="step"><div class="n">3</div><h3>Сигнал близким, позже МЧС</h3><p>Если ответа нет, близкие получают тревогу, геолокацию и аудиозапись. Если и они не отменят тревогу, позже подключается МЧС.</p></div>
+</div>
+</div></section>
+
+<section class="radar alt" id="radar"><div class="wrap">
+<div>
+<h2>Карта и безопасные зоны</h2>
+<p class="sub">Вы отмечаете на карте места, где всё в порядке. Если вы выходите за их границу, приложение сначала спрашивает вас, а не близких.</p>
+<div class="rows">
+<div><h3>Где вы сейчас</h3><p>Позиция на карте, заряд телефона и связь с сетью.</p></div>
+<div><h3>Допустимая зона</h3><p>Город, район или маршрут в школу. При выходе за границу вам приходит вопрос «Это вы?». Без ответа сигнал уходит близким.</p></div>
+<div><h3>Бережём батарею</h3><p>Обычно обновляем положение редко, а за городом чаще.</p></div>
+</div>
+</div>
+<div class="map" role="img" aria-label="Схема карты с зонами и маршрутом">
+<svg viewBox="0 0 480 520" xmlns="http://www.w3.org/2000/svg">
+<rect width="480" height="520" fill="var(--bg)"/>
+<g stroke="var(--line)" stroke-width="10" fill="none" stroke-linecap="round"><path d="M-10 120 C120 150 200 60 490 110"/><path d="M60 -10 C90 160 40 300 110 530"/><path d="M-10 400 C160 360 320 440 490 380"/><path d="M330 -10 C300 150 380 300 340 530"/></g>
+<circle cx="130" cy="150" r="70" fill="var(--mint)" opacity=".16" stroke="var(--mint)" stroke-width="2" stroke-dasharray="6 6"/>
+<circle cx="340" cy="380" r="86" fill="var(--coral)" opacity=".14" stroke="var(--coral)" stroke-width="2" stroke-dasharray="6 6"/>
+<text x="130" y="72" text-anchor="middle" font-size="15" font-weight="600" fill="var(--mint)" font-family="Onest,sans-serif">Школа</text>
+<text x="340" y="278" text-anchor="middle" font-size="15" font-weight="600" fill="var(--coral)" font-family="Onest,sans-serif">За городом</text>
+<path d="M130 150 C170 210 200 240 230 290 S300 350 320 372" fill="none" stroke="var(--text)" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>
+<circle cx="130" cy="150" r="9" fill="var(--mint)"/>
+<circle cx="320" cy="372" r="24" fill="var(--coral)" opacity=".25"/><circle cx="320" cy="372" r="11" fill="var(--coral)" stroke="var(--bg)" stroke-width="3"/>
+<rect x="24" y="446" width="432" height="52" rx="12" fill="var(--surface)" stroke="var(--line)"/>
+<text x="44" y="478" font-size="15" fill="var(--text)" font-family="Onest,sans-serif">Вы вышли из зоны. Это вы? Подтвердите</text>
+</svg></div>
+</div></section>
+
+<section><div class="wrap">
+<h2>Что происходит в разных ситуациях</h2>
+<div class="flows">
+<div class="flow"><h3>Случайное нажатие</h3><div class="path"><span>Нажатие в кармане</span><em>›</em><span>Уведомление вам</span><em>›</em><span>«Отмена»</span><em>›</em><span class="ok">Тревога снята</span></div></div>
+<div class="flow"><h3>Вы вышли из зоны сами</h3><div class="path"><span>Выход из зоны</span><em>›</em><span>«Это вы?»</span><em>›</em><span>«Я вышел сам»</span><em>›</em><span class="ok">Близким ничего не уходит</span></div></div>
+<div class="flow"><h3>Ответа нет</h3><div class="path"><span>Минута без ответа</span><em>›</em><span class="bad">Близким: сигнал, геолокация, аудио</span><em>›</em><span>Они не отменили</span><em>›</em><span class="bad">Позже МЧС</span></div></div>
+</div>
+</div></section>
+
+<section class="contacts alt" id="contacts"><div class="wrap">
+<div>
+<h2>Близкие и то, что они получат</h2>
+<p class="sub">В приложении вы добавляете людей, которым доверяете, и сами решаете, какие данные им отправлять.</p>
+<ul class="ticks"><li>Любой из близких может отменить тревогу, если знает, что всё в порядке.</li><li>В сигнале указаны страна, город и район, чтобы помощь приехала в нужное место.</li></ul>
+</div>
+<div class="cbox">
+<div class="ct"><div class="av">М</div><div><b>Мама</b><small>Получает сигнал первой</small></div></div>
+<div class="ct"><div class="av">П</div><div><b>Папа</b><small>Может отменить тревогу</small></div></div>
+<div class="ct"><div class="av">Д</div><div><b>Подруга</b><small>Получает сигнал</small></div></div>
+<div><small style="color:var(--muted)">Что отправлять близким</small><div class="chs"><span>Страна</span><span>Город</span><span>Район</span><span>Геолокация</span><span>Аудиозапись</span></div></div>
+</div>
+</div></section>
+
+<section id="pluses"><div class="wrap">
+<h2>Зачем всё это нужно</h2>
+<div class="benefits">
+<div><h3>Меньше ложных тревог</h3><p>Случайное нажатие или выезд по своей воле не пугают близких. Достаточно нажать одну кнопку в приложении.</p></div>
+<div><h3>Тревогу не видно со стороны</h3><p>Обычный брелок с чёрной кнопкой. Никто рядом не поймёт, что вы вызвали помощь.</p></div>
+<div><h3>Близкие получают главное</h3><p>Геолокацию, аудиозапись происходящего, страну, город и район. Если они не отменят тревогу, подключится МЧС.</p></div>
+<div><h3>Для детей, девушек и всех остальных</h3><p>По дороге из школы, на вечерней прогулке, в поездке или в горах.</p></div>
+</div>
+</div></section>
+
+<section class="alt" id="status"><div class="wrap">
+<h2>Где мы сейчас</h2>
+<p class="sub">Мы в самом начале пути. Ниже то, что уже придумано, и то, что нам ещё предстоит сделать.</p>
+<div class="tl">
+<div class="done"><span class="st">Есть</span><h3>Идея и сценарии</h3><p>Описали, как работают подтверждение и тревога.</p></div>
+<div class="now"><span class="st">Начинаем</span><h3>Прототип приложения</h3><p>Уведомления, зоны, контакты близких.</p></div>
+<div><span class="st">Впереди</span><h3>Прототип брелка</h3><p>Корпус, кнопка и связь с телефоном.</p></div>
+<div><span class="st">Впереди</span><h3>Проверка с людьми</h3><p>Подберём время на ответ и уберём лишнее.</p></div>
+<div><span class="st">Пока без сроков</span><h3>Выход продукта</h3><p>Скажем, когда будем уверены.</p></div>
+</div>
+</div></section>
+
+<section class="end"><div class="wrap">
+<h2>Мы только начинаем</h2>
+<p>Идея защитить детей и девушек кажется нам важной, и мы хотим сделать её аккуратно. Поэтому пока показываем не готовый продукт, а задумку и первые наброски.</p>
+</div></section>
+</main>
+<footer><div class="wrap">Маяк. Идея и прототип на ранней стадии разработки. Функции и внешний вид могут измениться.</div></footer>
+
+<script>
+(function(){
+var fg=document.getElementById('fg'),num=document.getElementById('num'),msg=document.getElementById('msg'),btn=document.getElementById('cancel');
+var C=565.5,N=60,t,timer,done=false;
+fg.style.transition='stroke-dashoffset .13s linear,stroke .3s';
+function ask(){msg.textContent='Брелок сработал. Это вы? Отмените тревогу, осталось '+t+' с'}
+function finish(){done=true;btn.textContent='Запустить снова';setTimeout(function(){if(done)reset()},4500)}
+function reset(){clearInterval(timer);done=false;t=N;fg.style.stroke='';fg.style.strokeDashoffset=0;num.style.fontSize='';num.textContent=t;ask();btn.textContent='Отмена (это случайно)';timer=setInterval(tick,130)}
+function tick(){t--;if(t>0){num.textContent=t;ask();fg.style.strokeDashoffset=C*(N-t)/N}else{clearInterval(timer);num.style.fontSize='40px';num.textContent='SOS';fg.style.strokeDashoffset=C;msg.textContent='Близкие получили сигнал, геолокацию и аудио. Позже подключится МЧС';finish()}}
+btn.addEventListener('click',function(){if(done){reset();return}clearInterval(timer);num.style.fontSize='40px';num.textContent='OK';fg.style.stroke='#3CCFA6';fg.style.strokeDashoffset=0;msg.textContent='Тревога снята. Близким ничего не отправлено';finish()});
+reset();
+})();
+</script>
+</body>
+</html>
